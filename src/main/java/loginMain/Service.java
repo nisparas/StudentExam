@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Service {
-    private static final String FILE_NAME = "finalResult.json";
+    private static final String FILE_NAME = "oop_answer.json";
     private final String directoryOne = "D:" + "\\" + "exams" + "\\" + "studentTest";
     Scanner sc = new Scanner(System.in);
     List<Result> resultsList = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Service {
         setq = beginTest(examTest);
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        File fileResults = FileTool.createFileIfNotExist(directoryOne + "\\" + FILE_NAME);
+        File fileResults = FileTool.createFileIfNotExist(directoryOne + "\\" + "finalResult.json");
         Result examResult = new Result(userName, setq.getExamId(), todayformat, setq.getCounter());
         resultsList.add(examResult);
         mapper.writeValue(fileResults, resultsList);
@@ -97,7 +97,7 @@ public class Service {
     public void testFileRead() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        File file = FileTool.createFileIfNotExist(directoryOne + "\\" + "oop_answer.json");
+        File file = FileTool.createFileIfNotExist(directoryOne + "\\" + FILE_NAME);
         mapper.readValue(file, ExamTest.class);
 
     }
@@ -105,7 +105,7 @@ public class Service {
     public void writeExamFile(ExamTest examTest) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        File file = FileTool.createFileIfNotExist(directoryOne + "\\" + "oop_answer.json");
+        File file = FileTool.createFileIfNotExist(directoryOne + "\\" + FILE_NAME);
         mapper.writeValue(file, examTest);
         System.out.println("oop answer failo rezultatai irasyti");
     }

@@ -12,7 +12,7 @@ public class FileTool {
                 file.createNewFile();
             } catch (IOException e) {
                 System.out.println("Cannot create file" +e);
-                return null;
+
             }
         }
         return file;
