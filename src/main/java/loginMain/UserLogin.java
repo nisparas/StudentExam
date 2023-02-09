@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+
 public class UserLogin {
     private final Map<String, User> userMap = new HashMap<>();
     Scanner sc = new Scanner(System.in);
@@ -57,22 +58,21 @@ public class UserLogin {
         System.out.println("Iveskite slaptazodi");
         boolean passwordLength;
         String password;
-        do { password = sc.nextLine();
+        do {
+            password = sc.nextLine();
             passwordLength = passwordLength(password);
-        }while (!passwordLength);
+        } while (!passwordLength);
         String repeatPassword;
         do {
-           System.out.println("Pakartokite slaptazodi");
-        repeatPassword = sc.nextLine();
+            System.out.println("Pakartokite slaptazodi");
+            repeatPassword = sc.nextLine();
         } while (!repeatPassword.equals(password));
-        user = new User(userName, name, userSurname,DigestUtils.sha512Hex(password));
+        user = new User(userName, name, userSurname, DigestUtils.sha512Hex(password));
         userMap.put(userName, user);
         System.out.printf("Sveikiname prisiregistravus %s %s%n", name, userSurname);
     }
 
     private void userLogin(Scanner sc) throws IOException {
-        ExamTest examTest = new ExamTest();
-        Service testService = new Service();
         System.out.println("Iveskite userName");
         String userName = sc.nextLine();
         User user = userMap.get(userName);
@@ -86,50 +86,53 @@ public class UserLogin {
             System.out.println("Slaptazodis neteisingas");
             return;
         }
-        System.out.printf("Sveikiname prisijungus %s %s%n ", user.name(), user.userSurname());
+        System.out.println("Sveiki prisijunge " + userName);
 
-        boolean forward = true;
-        while (forward) {
-            System.out.println(" __________________________________");
-            System.out.println("|  1. Sukurti testa                |");
-            System.out.println("|  2. Pradeti testa                |");
-            System.out.println("|  3. Gauti rezultata              |");
-            System.out.println("|  4. Iseiti is aplikacijos        |");
-            System.out.println("|__________________________________|");
 
-            String userAction = sc.nextLine();
-            switch (userAction) {
-                case "1" -> {
-                    examTest = testService.addTest(sc);
-                    testService.writeExamFile(examTest, testService.directoryOne);
+            ExamTest examTest = new ExamTest();
+            Service testService = new Service();
+            testService.testFileRead();
+            boolean forward = true;
+            while (forward) {
+                System.out.println(" __________________________________");
+                System.out.println("|  1. Sukurti testa                |");
+                System.out.println("|  2. Pradeti testa                |");
+                System.out.println("|  3. Gauti rezultata              |");
+                System.out.println("|  4. Iseiti is aplikacijos        |");
+                System.out.println("|__________________________________|");
+                String userAction = sc.nextLine();
+                switch (userAction) {
+                    case "1" -> {
+                        examTest = testService.addTest();
+                        testService.writeExamFile(examTest);
+                    }
+                    case "2" -> testService.startUp(examTest, userName);
+                    case "3" -> testService.printRez();
+                    case "4" -> forward = false;
+                    default -> System.out.println("Tokio pasirinkimo nera");
                 }
-                case "2" -> testService.startUp(sc, examTest, testService.directoryOne, userMap.toString());
-                case "3" -> testService.studentAnswerRead(testService.directoryOne);
-                case "4" -> forward = false;
-                default -> System.out.println("Tokio pasirinkimo nera");
-
             }
         }
-    }
-    public boolean passwordLength(String password) {
-        boolean passwordLength = true;
-        if (password.length() < 5) {
-            passwordLength = false;
-            System.out.println("Jūsų slaptažodis per trumpas, pasirinkite kitą slaptažodį");
+
+    public boolean passwordLength(String password){
+            boolean passwordLength = true;
+            if (password.length() < 5) {
+                passwordLength = false;
+                System.out.println("Jusu slaptazodis per trumpas, pasirinkite kita slaptazodi");
+            }
+            if (password.equals(password.toLowerCase())) {
+                passwordLength = false;
+                System.out.println("Jusu slaptazodyje yra tik mazosios raides, pasirinkite kita slaptazodi");
+            }
+            if (password.equals(password.toUpperCase())) {
+                passwordLength = false;
+                System.out.println("Jusu slaptazodi sudaro tik didziosios raides, pasirinkite kita slaptazodi");
+            }
+            return passwordLength;
         }
-        if (password.equals(password.toLowerCase())) {
-            passwordLength = false;
-            System.out.println("Jūsų slaptažodyje yra tik mažosios raidės, pasirinkite kitą slaptažodį");
-        }
-        if (password.equals(password.toUpperCase())) {
-            passwordLength = false;
-            System.out.println("Jūsų slaptažodį sudaro tik didžiosios raidės, pasirinkite kitą slaptažodį");
-        }
-        return passwordLength;
     }
 
 
-    }
 
 
 

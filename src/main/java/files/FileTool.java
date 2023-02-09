@@ -11,7 +11,7 @@ public class FileTool {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                System.out.println("Cannot create file");
+                System.out.println("Cannot create file" +e);
                 return null;
             }
         }

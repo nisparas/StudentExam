@@ -3,11 +3,20 @@ package files;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Questions {
+public class Questions  {
     private String questionsCarcass;
-     Map<AnswerId, String> answerOptions = new HashMap<>();
-
+    private Map<AnswerId, String> answerOptions = new HashMap<>();
     private String goodAnsw;
+    private String studentAnswers;
+
+    public String getStudentAnswers() {
+        return studentAnswers;
+    }
+
+    public String setStudentAnswers(String studentAnswers) {
+        this.studentAnswers = studentAnswers;
+        return studentAnswers;
+    }
 
     public Questions(String questionsCarcass, Map<AnswerId, String> answerOptions, String goodAnsw) {
         this.questionsCarcass = questionsCarcass;
@@ -16,7 +25,6 @@ public class Questions {
     }
 
     public Questions() {
-
     }
 
     public String getQuestionsCarcass() {
